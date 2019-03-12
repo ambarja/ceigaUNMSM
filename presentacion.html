@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JUGANDO CON DATOS ESPACIALES DENTRO DE R</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Antony Barja" />
+    <script src="xaringan_stuff/libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+    <link href="xaringan_stuff/libs/style-1/style.css" rel="stylesheet" />
+    <script src="xaringan_stuff/libs/slideView-binding-2.6.3/slideView.js"></script>
+    <link id="t_antes-t_despues-imager-attachment" rel="attachment" href="xaringan_stuff/libs/t_antes-t_despues-01/t_antes.png"/>
+    <link id="t_antes-t_despues-imagel-attachment" rel="attachment" href="xaringan_stuff/libs/t_antes-t_despues-01/t_despues.png"/>
+    <link rel="stylesheet" href="xaringan_stuff\my-theme.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# JUGANDO CON DATOS ESPACIALES DENTRO DE R
+## INGENIERÍA GEOGRÁFICA UNMSM
+### Antony Barja
+### 18/02/2019
+
+---
+
+layout: true
+background-image: url(xaringan_stuff/img/r_geocomp_background.png)
+background-size: cover
+---
+#OBJETIVOS:
+
+.pull-left[
+
+- R se convierta en un programa de elección dentro de su caja de herramienta geoespacial para muchas aplicaciones.
+- Despertar la curiosidad por el mundo de la ciencia de los datos espaciales.
+- Introducir conceptos básicos para que posteriormente puedan aplicarlo analizando los diferentes problemas que suceden en el espacio geográfico.
+- Comunicar sus trabajos con gráficos estadísticos y mapas estáticos o interactivos con códigos reproducibles.
+
+]
+
+
+.pull-right[
+
+&lt;img src="./image/final.png" width="400" height="300" /&gt;
+
+]
+
+---
+# INTRODUCCIÓN
+
+.pull-left[
+
+- R fue creado en el año 1992 en Nueva Zelanda por **Ross Ihaka** y **Robert Gentlenman**.
+- La **intención inicial con R era** hacer un lenguaje didáctico **para ser utilizado en** el curso de Introductorio de **estadística** a la Universidad de Nueva Zelanda.
+- El **Predecesor de R es el lenguaje S** desarrollado por Bell Laboratories.
+- 1993 se da a conocer por primera vez al público del software R y en el año **1997 R forma para del proyecto GNU**.
+######**_fuente(Julio Santana y Efraín Farfán, 2014)_**
+
+]
+
+
+.pull-right[
+
+&lt;img src="./image/ross_robert.PNG" width="960" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+#¿QUÉ ES R?
+
+R es un entorno de programación y un lenguaje interpretado de codigo abierto multiplataforma que nos permite hacer diferentes tipos de análisis estadísticos **(Robin Lovelace et.al,2019)**, desde importar los datos, ordenarlos, modelarlos, visualizarlo mediante gráficos de alta calidad e incluir en informes académicos de manera científica **(Hadley Wickham y Garrett Grolemund,2017)**.
+
+.pull-left[
+
+&lt;img src="./image/01_tidyverse_data_science.png" width="600" height="300" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+.pull-right[
+
+&lt;img src="./image/r_native.PNG" width="800" height="300" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+#¿QUÉ ES RSTUDIO?
+
+Rstudio es un entorno de desarrollo integrado (IDE) para R. Incluye una consola, un editor de resaltado de sintaxis que admite la ejecución directa de código, así como herramientas para el trazado, el historial, la depuración y la administración del espacio de trabajo **(Rstudio)**.
+
+**CONCLUSIÓN: "RSTUDIO ES EL ROSTRO BONITO DE R"**
+
+&lt;img src="./image/parts.PNG" width="600" height="320" style="display: block; margin: auto;" /&gt;
+
+---
+# ¿Cómo instalar R con Rstudio?
+Para instalar R primero ingresamos al siguiente enlace:
+[aquí](https://cran.r-project.org/).
+
+&lt;img src="./image/Rlogo.svg" width="200" height="200" style="display: block; margin: auto;" /&gt;
+
+Para instalar Rstudio ingresamos de igual forma al siguiente enlace:
+[aquí](https://www.rstudio.com/)
+
+&lt;img src="./image/RStudio-Ball.png" width="200" height="200" style="display: block; margin: auto;" /&gt;
+---
+
+# ¿QUÉ ES LA GEOCOMPUTACIÓN?
+LA Geocomputación es el **"USO DEL PODER DE LAS COMPUTADORAS PARA HACER COSAS CON DATOS GEOGRÁFICOS" (Robin Lovelace et.al,2019)**.
+* Cosas:
+    + leer (importar diferentes formatos tanto vectorial o raster)
+    + ordenar(limpiar data)
+    + modelar (técnicas de estadística espacial, machine learnig ..)
+    + elaborar mapas (estáticos o interactivos)
+    + **solucionar problemas del mundo real**
+    
+**APLICACIONES:**
+- Data science
+- Criminología
+- Epidemiología
+- Geografía humana y física 
+- Riesgos de desastres
+- Teledetección
+- Ecología
+- Estadística espacial
+- ...
+
+
+---
+# ¿POR QUÉ R PARA LA GEOCOMPUTACIÓN?
+
+.pull-left[
+
+- R fue diseñado específicamente como una interfaz interactiva para otro software **(Chambers, 2016)**.
+- R es más ventajoso para manejar y visualizar datos vectoriales y raster , y lo más importante es que tiene una **diversidad de paquetes para la estadística y la estadística espacial y para los modelos predicitos** a diferencia de **Phyton**.
+
+- **R posee un amplio ecosistema espacial** de paquetes especializados.
+
+]
+
+.pull-right[
+
+&lt;img src="./image/cover.png" width="300" height="400" /&gt;
+
+]
+
+---
+###¿CUÁL ES LA DIFERENCIA ENTRE UN SIG DE ESCRITORIO Y R?
+
+&lt;img src="./image/SIG_R.PNG" width="400" height="250" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="./image/cli_gui_01.jpg" width="1697" /&gt;
+######_**fuente: Adaptación propia del cuadro de Robin Lovelace et.al,2019**_
+
+---
+# BREVE RESUMEN DE LA HISTORIA DE RSPATIAL
+
+&lt;img src="./image/histori.PNG" width="1707" /&gt;
+
+######_**fuente: Elaboración propia tomando los conceptos de Robin Lovelace et.al,2019**_
+
+---
+#INTRODUCCIÓN BÁSICA A LA SINTAXIS DE R
+- ¿Qué es una función dentro de R y a que llamamos argumento?
+- ¿Qué es un objeto dentro de R?
+- R como calculadora
+  * Funciones básicas escenciales
+- ¿Como acceder al sist. de ayuda de R?
+- Cuales son las 5 clases atómicas dentro de R
+- Tipos de objetos en R
+  * ¿Qué es un vector?
+  * ¿Qué es un factor?
+  * ¿Qué es una matrix?
+  * ¿Qué es un data.frame?
+  * ¿Qué es una lista?
+
+&lt;img src="./image/hola_mundo.PNG" width="1179" /&gt;
+
+---
+
+# ¿QUÉ ES UNA FUNCIÓN DENTRO DE R?
+Es un **grupo de instrucciones** que toma un imput o dato de entrada y usa estos datos para obtener un resultado.
+
+.pull-left[
+
+```r
+plot(1:10,
+     (1:10)^2
+     ,main ='Mi primer plot' )
+```
+]
+
+.pull-right[
+![](presentacion_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+]
+---
+
+#¿QUÉ ES UN ARGUMENTO EN R?
+Un argumento dentro de R, son las partes que conforman una función(**parámetros**)
+&lt;img src="./image/argumento.PNG" width="1707" style="display: block; margin: auto;" /&gt;
+
+---
+#¿QUÉ ES UN OBJETO DENTRO DE R?
+
+Son todos aquellos que tienen una identidad (**nombre**), esencia (**datos**) y tienen un comportamiento (**operaciones**).
+&lt;img src="./image/objeto.PNG" width="1707" style="display: block; margin: auto;" /&gt;
+---
+###R COMO CALCULADORA
+#### -Cómo establecer nuestro workspace o directorio de tabajo.
+  * Usando el **"/"**
+  * Usando el doble **"\\"**
+  * Usando **Sessions**
+
+#### -Cómo asignar una variable dentro de R
+  * Usando el simbolo **"&lt;-"** (nunca separado)
+  * Usando el simbolo **"="** (no recomendable)
+  * Usando el simbolo invertido **"-&gt;"**
+  * Usando la fun **assign("name",valor)**
+
+#### -Cómo guardar nuestro script dentro de nuestro workspace.
+
+#### -Funciones escenciales.
+  * setwd(), getwd() 
+  * dir(),ls(),rm()
+  * summary(), mean(), sum(), sd()
+  * q()
+---
+# ¿CÓMO ACCEDER AL SISTEMA DE AYUDA DE R?
+### Funciones escenciales:
+ * **help()** ========= &gt; **?**
+ * **help.search()** == &gt; **??**
+### Ejemplo:
+
+
+```r
+help('setwd')
+help('lm')
+?setwd
+?lm
+help.search('plot')
+??plot
+```
+---
+# LAS 5 CLASES ATÓMICAS DENTRO R
+* Numérico (decimales, ..)
+&lt;br&gt;
+* entero (L)
+&lt;br&gt;
+* complejo (1 + 0i)
+&lt;br&gt;
+* Carácteres ("siempre entre comillas")
+&lt;br&gt;
+* Valores lógicos (TRUE or FALSE)
+
+---
+# TIPOS DE OBJETOS DENTRO DE R:
+
+* Vector ========== &gt; **c()** 
+* Factor ========== &gt; **factor()**
+* Matrix ========== &gt; **matrix()**
+* Data.frame ====== &gt; **data.frame**
+* Lista  ========== &gt; **list()**
+
+---
+##QUÉ ES LA INDEXACIÓN Y COERSION DENTRO DE R
+-**Idexacion:** Extraer o acceder a los diferentes elementos de diferentes posiciones que presenta nuestro objeto dentro de su estructura.
+Para ello los operadors de acceso o selección son:
+ * **[posición]**
+ * **[fila,columna]**
+ * **[[]]**
+ * **$**
+
+-**Coersión:** La conversión o transformación que sufren nuestro datos a diferentes tipos de obejtos.
+Para ello R posee un conjunto de funciones de la forma:
+**as.&lt;tipo&gt;()**
+Ejemplo:
+ * as.vector()
+ * as.numeric()
+ * as.list()
+ * as.factor()
+ * ....
+---
+# SIG CON R 
+&lt;img src="./xaringan_stuff/img/Diapositiva1.PNG" width="600" height="390" style="display: block; margin: auto;" /&gt;
+## La importancia del Dónde?
+---
+# ¿QUÉ ES UN SISTEMA DE INFORMACIÓN GEOGRÁFICA?
+Es un conjunto de componentes que tiene como objetivo general trabajar con información georreferenciada.
+
+&lt;img src="./image/map.png" width="1809" /&gt;
+
+---
+# COMPONENTES DE UN SIG:
+
+.pull-left[
+Un sistema de información geográfica está compuesto por:
+- datos
+- procesos
+- visualización
+- tecnología (software y hardware SIG)
+- factor organizativo. 
+
+Para terminar un **SIG REFLEJA LA REALIDAD**
+
+]
+
+.pull-right[
+
+![](./image/globe.png)
+
+]
+---
+
+# TIPOS DE DATOS ESPACIALES:
+Datos espaciales:Son todos los datos que presentan geolocalización, es decir presentan un SRC.
+
+Existen dos tipos o modelos de datos espaciales, estos son:
+* Datos vectoriales
+* Datos raster
+
+&lt;img src="./image/ras_vec.PNG" width="550" height="320" style="display: block; margin: auto;" /&gt;
+
+---
+#¿QUÉ SON LOS DATOS VECTORIALES?
+Los datos vectoriales son **formas geométricas** (punto, linea y poligonos) que representan a los elementos geográficos que existen en el territorio,se caracterizan por contener información de tipo cuantitativo o cualitativo a lo que generalmente se le llama **atributo**, y estos mismos están asociados a un Sistema de Referencia de Coordenada (**CRS**).
+#### Ejemplo:
+
+&lt;img src="./image/data_vect.png" width="600" height="300" style="display: block; margin: auto;" /&gt;
+
+---
+# TIPOS DE GEOPROCESAMIENTO CON DATOS VECTORIALES
+El geoprocesamiento es la manipulación de los datos espacial bajo un entorno SIG; para los datos vectoriales los tipos de geoprocesamiento que se puede llevar acabo son las siguiente:
+
+&lt;img src="./image/geo_vec.png" width="600" height="300" style="display: block; margin: auto;" /&gt;
+---
+# ¿QUÉ SON LOS DATOS RASTER?
+Los datos raster es una matrix de valores, donde la unidad mínima es el pixel, y este contiene información geolocalizada de tipo continua.
+
+&lt;img src="./image/raster.png" width="600" height="300" style="display: block; margin: auto;" /&gt;
+
+
+---
+# TIPOS DE GEOPROCESAMIENTO CON DATOS RASTER
+
+&lt;img src="./image/geo_raster.png" width="600" height="300" style="display: block; margin: auto;" /&gt;
+---
+# TRABAJANDO CON EL PAQUETE SF y GGPLOT2
+## Lectura de data 
+
+
+```r
+library(sf)
+```
+
+```
+## Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
+```
+
+```r
+library(ggplot2)
+library(viridis)
+```
+
+```
+## Loading required package: viridisLite
+```
+
+```r
+dep &lt;- st_read('./data/vector/distritos.shp')
+```
+
+```
+## Reading layer `distritos' from data source `C:\Users\Antony\Music\ceiga\data\vector\distritos.shp' using driver `ESRI Shapefile'
+## Simple feature collection with 1873 features and 21 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -81.32823 ymin: -18.35093 xmax: -68.65228 ymax: -0.03860597
+## epsg (SRID):    4326
+## proj4string:    +proj=longlat +datum=WGS84 +no_defs
+```
+---
+## Plot con sf y ggplot
+
+
+```r
+(ggplot(dep,
+        aes(fill = V_Susc)) +
+        geom_sf(color = NA)) +
+    scale_fill_viridis() + 
+    theme_minimal()
+```
+
+&lt;img src="presentacion_files/figure-html/unnamed-chunk-24-1.png" width="400" height="400" style="display: block; margin: auto;" /&gt;
+
+---
+# TRABAJANDO CON EL PAQUETE RASTER
+## Lectura de data 
+
+
+```r
+library(raster)
+```
+
+```
+## Loading required package: sp
+```
+
+```r
+(tacna &lt;- stack('./data/raster/Tacna_despues.tif'))
+```
+
+```
+## class       : RasterStack 
+## dimensions  : 662, 673, 445526, 3  (nrow, ncol, ncell, nlayers)
+## resolution  : 10, 10  (x, y)
+## extent      : 330670, 337400, 8065770, 8072390  (xmin, xmax, ymin, ymax)
+## coord. ref. : +proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+## names       : Tacna_despues.1, Tacna_despues.2, Tacna_despues.3 
+## min values  :               0,               0,               0 
+## max values  :           65535,           65535,           65535
+```
+
+---
+## Plot con raster
+
+
+```r
+img &lt;- setValues(tacna, scales::rescale(values(tacna), to = c(0, 255))) 
+img[img == 0]&lt;- NA
+plotRGB(img,stretch = 'hist',axes =TRUE)
+```
+
+&lt;img src="presentacion_files/figure-html/unnamed-chunk-25-1.png" width="400" height="400" style="display: block; margin: auto;" /&gt;
+
+---
+<div id="htmlwidget-01d588f8675583fde9d3" style="width:504px;height:504px;" class="slideView html-widget"></div>
+<script type="application/json" data-for="htmlwidget-01d588f8675583fde9d3">{"x":{"message":{"a":"a","b":"b"},"img1":"t_antes","img2":"t_despues","legend":false,"fldrnm":"t_antes-t_despues"},"evals":[],"jsHooks":[]}</script>
+---
+# TRABAJANDO CON TMAP
+Es un paquete dentro de R que nos permite elaborar mapas
+temáticos con una cantidad mínima de codigo y está basado en la superposición de capas.
+
+Para mayor información [aquí](https://www.jstatsoft.org/article/view/v084i06)
+
+
+```r
+knitr::include_graphics('./image/tmap.png')
+```
+
+&lt;img src="./image/tmap.png" width="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Tmap + datos vectoriales
+
+
+```r
+library(tmap)
+library(sf)
+library(viridis)
+shp &lt;- st_read('./data/vector/distritos.shp')
+tm_shape(shp) + 
+  tm_layout(frame = FALSE) + 
+  tm_fill('V_Susc', palette = 'viridis')
+```
+
+---
+
+# Tmap + datos vectoriales
+
+
+```
+## Reading layer `distritos' from data source `C:\Users\Antony\Music\ceiga\data\vector\distritos.shp' using driver `ESRI Shapefile'
+## Simple feature collection with 1873 features and 21 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -81.32823 ymin: -18.35093 xmax: -68.65228 ymax: -0.03860597
+## epsg (SRID):    4326
+## proj4string:    +proj=longlat +datum=WGS84 +no_defs
+```
+
+![](presentacion_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+
+
+---
+# Tmap + raster 
+
+
+```r
+library(tmap)
+library(raster)
+library(viridis)
+
+dem &lt;- raster('./data/raster/dem.tif')
+tm_shape(dem) + tm_raster(palette = 'cividis',)
+```
+---
+
+# Tmap + raster 
+
+![](presentacion_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+
+---
+class: middle
+.center[
+![Saw](./image/giphy2.gif)]
+#GRACIAS ^^ !
+### Estos slides fueron creados en: [xaringan](https://github.com/yihui/xaringan) con [RMarkdown](https://rmarkdown.rstudio.com/)
+
+### La version original de estos slides puedes encontrarlos en el siguiente enlace:[aquí](https://github.com/Robinlovelace/erum18-transport)
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightLines": true,
+"ratio": "4:3",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
